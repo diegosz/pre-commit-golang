@@ -178,12 +178,15 @@ function parse_repo_hook_args {
 ##
 # find_module_roots
 # Walks up the file path looking for go.mod
-# Prunes paths with /vendor/ in them
+# Prunes paths with /vendor/ or /.bingo/ in them
 #
 function find_module_roots() {
 	local path
 	for path in "$@"; do
 		if [[ "${path}" == "vendor/"* || "${path}" == *"/vendor/"* || "${path}" == *"/vendor" ]]; then
+			continue
+		fi
+		if [[ "${path}" == ".bingo/"* || "${path}" == *"/.bingo/"* || "${path}" == *"/.bingo" ]]; then
 			continue
 		fi
 		if [ "${path}" == "" ]; then
